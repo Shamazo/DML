@@ -33,7 +33,14 @@ target_compile_options(dml_hw_dispatcher
 target_include_directories(dml_hw_dispatcher
         PUBLIC ../../../../include
         PUBLIC ./
+        PUBLIC ~/vcpkg/packages/libuuid_x64-linux/include
         )
+
+
+find_package(unofficial-libUUID CONFIG REQUIRED)
+target_link_libraries(dml_hw_dispatcher
+  public
+  unofficial::UUID::uuid)
 
 target_compile_definitions(dml_hw_dispatcher
         PUBLIC $<$<BOOL:${LOG_HW_INIT}>:LOG_HW_INIT>

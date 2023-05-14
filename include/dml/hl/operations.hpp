@@ -117,15 +117,17 @@ namespace dml
      *
      * See also @ref dml::mem_copy
      */
-    class mem_copy_operation
-    {
-    public:
+    class mem_copy_operation {
+       public:
         /**
          * @brief Constructs the operation
          */
-        constexpr mem_copy_operation() noexcept: options_(detail::ml::mem_move_options().enable<detail::mem_move_flag::cache_control>())
-        {
-        }
+        constexpr mem_copy_operation() noexcept
+            : options_(
+                  detail::ml::mem_move_options().enable<detail::mem_move_flag::cache_control>()) {}
+
+        constexpr mem_copy_operation(bool cache_control) noexcept
+            : options_(detail::ml::mem_move_options()) {}
 
         /**
          * @brief Result type for this operation
@@ -153,6 +155,7 @@ namespace dml
      * For usage examples see corresponding @ref dml::submit or @ref dml::execute
      */
     constexpr auto mem_copy = mem_copy_operation();
+    constexpr auto mem_copy_no_cache_control = mem_copy_operation(false);
 
     /**
      * @ingroup dmlhl_ops

@@ -102,24 +102,19 @@ namespace dml
          *
          * This methods waits for an operation to finish, blocking current thread.
          *
-         * In case handler is not valid, resulting structure status field will contain error status code.
+         * In case handler is not valid, resulting structure status field will contain error status
+         * code.
          *
          * @return Result structure for an operation
          */
-        auto get() noexcept
-        {
-            auto  task_view         = make_view(task_);
+        auto get(bool umwait = false) noexcept {
+            auto task_view = make_view(task_);
             auto &completion_record = task_view.get_completion_record();
-
-            if (status_ == status_code::ok)
-            {
-                if (is_hw)
-                {
-                    detail::ml::wait<detail::ml::execution_path::hardware>(task_view);
-                }
-                else
-                {
-                    detail::ml::wait<detail::ml::execution_path::software>(task_view);
+            if (status_ == status_code::ok) {
+                if (is_hw) {
+                  detail::ml::wait<detail::ml::execution_path::hardware>(task_view, umwait);
+                } else {
+                  detail::ml::wait<detail::ml::execution_path::software>(task_view, umwait);
                 }
 
                 return detail::make_result<result_type>(completion_record);

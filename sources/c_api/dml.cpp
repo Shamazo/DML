@@ -9,6 +9,7 @@
 #include <memory>
 #include <new>
 #include <limits>
+#include <algorithm>
 
 #include "impl.hpp"
 #include "job_view.hpp"
